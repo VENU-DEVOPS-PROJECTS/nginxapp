@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Pushing to ECR') {
             steps {
-                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c4r1v1f4'
+                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username s3webuser --password-stdin public.ecr.aws/c4r1v1f4'
                 sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
                 sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
             }
