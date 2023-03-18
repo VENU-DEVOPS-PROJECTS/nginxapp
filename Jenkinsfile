@@ -39,6 +39,14 @@ pipeline {
                 sh 'docker push venuchanapathi1998/nginxappmine:${BUILD_NUMBER}'
             }
         }
+        stage('Pushing to AWS ECR') {
+            steps {
+                withDockerRegistry(url: 'public.ecr.aws/c4r1v1f4/nginxappmine') {
+                    docker.build('nginxappmine:${BUILD_NUMBER}', '.')
+                    docker.image('nginxappmine:${BUILD_NUMBER}').tag("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}")
+                    docker.image("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}").push()
+            }
+        }
         stage('Creating the Docker container from the Docker image ceated in previous stage') {
           steps {
                 sh ' docker run -d --name clockapp nginxappmine:${BUILD_NUMBER}'
