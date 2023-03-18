@@ -14,3 +14,5 @@ plugins : withCredentials, Git
 Configuring ACR authentication : https://learn.microsoft.com/en-us/azure/container-registry/container-registry-repository-scoped-permissions
 Confiuring ECR authentication : See the ECR page for PUSH COMMANDS .
  
+
+<img width="736" alt="image" src="https://user-images.githubusercontent.com/96813823/226123303-795eb8e0-6811-4e3e-af48-a1939bc8ce7f.png">
