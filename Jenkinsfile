@@ -58,6 +58,8 @@ pipeline {
         stage('Authenticate with azure ACR') {
             steps {
                 sh 'echo $TOKEN_PWD | docker login --username $TOKEN_NAME --password-stdin nginxappmine.azurecr.io'
+                sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
+                sh 'docker push nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
             }
         }
         stage('cleaning the loaded images') {
