@@ -3,6 +3,12 @@ pipeline {
     environment {
         dockerhub=credentials('docker-venuchanapathi1998')
     }
+    withCredentials([[
+        $class: 'AmazonWebServicesCredentialsBinding',
+        accessKeyVariable: 'AKIAZH3OJORCJNR7Y64J',
+        secretKeyVariable: '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',
+        credentialsId: 'AWS'
+    ]])
     stages {
         stage('Clone') {
             steps {
@@ -44,14 +50,6 @@ pipeline {
                 sh '$(aws ecr get-login --no-include-email --region us-east-1)'
                 sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
                 sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
-            }
-        }
-        stage('Creating the Docker container from the Docker image ceated in previous stage') {
-          steps {
-                sh ' docker run -d --name clockapp nginxappmine:${BUILD_NUMBER}'
-                sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
-                sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
-
             }
         }
         stage('cleaning the loaded images') {
