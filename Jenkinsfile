@@ -57,7 +57,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'my-acr-creds', usernameVariable: 'nginxappmine', passwordVariable: 'so+8uAWvCvnDVBU9AxZFsgFNdZu3DP9h7LeWI2gTdB+ACRCAw2BS')]) {
                     sh 'docker login -u $ACR_USERNAME -p $ACR_PASSWORD nginxappmine.azurecr.io'
-                    sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}
+                    sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
                     sh 'docker push nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
         }
     }
