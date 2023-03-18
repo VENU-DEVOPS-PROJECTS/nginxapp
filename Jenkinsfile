@@ -41,13 +41,16 @@ pipeline {
         }
         stage('Pushing to ECR') {
             steps {
-                sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
-                sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
+                sh '$(aws ecr get-login --no-include-email --region us-east-1)'
+
             }
         }
         stage('Creating the Docker container from the Docker image ceated in previous stage') {
           steps {
                 sh ' docker run -d --name clockapp nginxappmine:${BUILD_NUMBER}'
+                sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
+                sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
+
             }
         }
         stage('cleaning the loaded images') {
