@@ -55,7 +55,7 @@ pipeline {
         }
         stage('Authenticate with ACR and PUSHING') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'my-acr-creds', usernameVariable: 'nginxappmine', passwordVariable: 'so+8uAWvCvnDVBU9AxZFsgFNdZu3DP9h7LeWI2gTdB+ACRCAw2BS')]) {
+                withCredentials([usernamePassword(credentialsId: 'my-acr-creds', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_PASSWORD')]) {
                     sh 'echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin nginxappmine.azurecr.io'
                     sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
                     sh 'docker push nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
