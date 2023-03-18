@@ -3,12 +3,6 @@ pipeline {
     environment {
         dockerhub=credentials('docker-venuchanapathi1998')
     }
-    withCredentials([[
-        $class: 'AmazonWebServicesCredentialsBinding',
-        accessKeyVariable: 'AKIAZH3OJORCJNR7Y64J',
-        secretKeyVariable: '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',
-        credentialsId: 'AWS'
-    ]])
     stages {
         stage('Clone') {
             steps {
@@ -47,9 +41,16 @@ pipeline {
         }
         stage('Pushing to ECR') {
             steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    accessKeyVariable: 'AKIAZH3OJORCJNR7Y64J',
+                    secretKeyVariable: '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',
+                    credentialsId: 'AWS'
+                ]]) {
                 sh '$(aws ecr get-login --no-include-email --region us-east-1)'
                 sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
                 sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
+                }
             }
         }
         stage('cleaning the loaded images') {
