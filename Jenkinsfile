@@ -47,9 +47,9 @@ pipeline {
                     secretKeyVariable: '8JCW4MB0HZXa9vp7dpX530CrxZxOMjecwdmIkd09',
                     credentialsId: 'AWS'
                 ]]) {
-                sh '$(aws ecr get-login --no-include-email --region us-east-1)'
-                sh 'docker tag nginxappmine:${BUILD_NUMBER} 635349595204.dkr.ecr.us-east-1.amazonaws.com/nginxappmine:${BUILD_NUMBER}'
-                sh '635349595204.dkr.ecr.us-east-1.amazonaws.com/nginxappmine:${BUILD_NUMBER}'
+                sh 'eval $(aws ecr get-login --no-include-email --region us-east-1)'
+                sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine:${BUILD_NUMBER}'
+                sh 'nginxappmine:${BUILD_NUMBER}'
                 }
             }
         }
