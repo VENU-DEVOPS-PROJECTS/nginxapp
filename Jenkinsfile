@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/VENU-DEVOPS-PROJECTS/nginxapp.git']]])
+                git branch: 'main', url: 'https://github.com/VENU-DEVOPS-PROJECTS/nginxapp.git'
             }
         }
         stage('listing files') {
