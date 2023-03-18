@@ -2,6 +2,8 @@ pipeline {
     agent any 
     environment {
         dockerhub=credentials('docker-venuchanapathi1998')
+        TOKEN_NAME='myacrtoken'
+        TOKEN_PWD='ny7IaZ1pY0RzwWhLRleB8WPw4fd7/NNvSKtDiuEmux+ACRDKYa66'
     }
     stages {
         stage('Clone') {
@@ -53,15 +55,9 @@ pipeline {
                 }
             }
         }
-        stage('Authenticate with ACR and PUSHING') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'my-acr-creds', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_PASSWORD')]) {
-                    sh 'echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin nginxappmine.azurecr.io'
-                    sh 'docker tag nginxappmine:${BUILD_NUMBER} nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
-                    sh 'docker push nginxappmine.azurecr.io/nginxappmine:${BUILD_NUMBER}'
+        stage('Authenticate with azure ACR') {
+            sh 'echo $TOKEN_PWD | docker login --username $TOKEN_NAME --password-stdin nginxappmine.azurecr.io'
         }
-    }
-}
         stage('cleaning the loaded images') {
             steps {
                 sh 'docker rmi -f $(docker images -q)'
