@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Pushing to ECR') {
             steps {
-                withDockerRegistry(url: 'public.ecr.aws/c4r1v1f4/nginxappmine') {
+                withDockerRegistry([url: 'public.ecr.aws/c4r1v1f4/nginxappmine']) {
                     docker.build('nginxappmine:${BUILD_NUMBER}', '.')
                     docker.image('nginxappmine:${BUILD_NUMBER}').tag("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}")
                     docker.image("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}").push()
