@@ -56,7 +56,9 @@ pipeline {
             }
         }
         stage('Authenticate with azure ACR') {
-            sh 'echo $TOKEN_PWD | docker login --username $TOKEN_NAME --password-stdin nginxappmine.azurecr.io'
+            steps {
+                sh 'echo $TOKEN_PWD | docker login --username $TOKEN_NAME --password-stdin nginxappmine.azurecr.io'
+            }
         }
         stage('cleaning the loaded images') {
             steps {
