@@ -41,12 +41,10 @@ pipeline {
         }
         stage('Pushing to ECR') {
             steps {
-                withDockerRegistry([url: 'public.ecr.aws/c4r1v1f4/nginxappmine']) {
-                    docker.build('nginxappmine:${BUILD_NUMBER}', '.')
-                    docker.image('nginxappmine:${BUILD_NUMBER}').tag("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}")
-                    docker.image("public.ecr.aws/c4r1v1f4/nginxappmine/nginxappmine:${BUILD_NUMBER}").push()
+                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c4r1v1f4'
+                sh 'docker tag nginxappmine:${BUILD_NUMBER} public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
+                sh 'docker push public.ecr.aws/c4r1v1f4/nginxappmine:${BUILD_NUMBER}'
             }
-        }
         }
         stage('Creating the Docker container from the Docker image ceated in previous stage') {
           steps {
